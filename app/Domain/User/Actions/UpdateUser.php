@@ -1,19 +1,14 @@
 <?php
 
-namespace Domain\User\Queries;
+namespace Domain\User\Actions;
 
 use Domain\User\DataObjects\UserData;
 use Domain\User\User;
 use Illuminate\Http\Request;
 
-final class UserQueries
+final class UpdateUser
 {
-    public static function create(UserData $userData, array $roles = null)
-    {
-        return User::create($userData->toArray())->replaceRoles($roles);
-    }
-
-    public static function update(User $user, Request $request)
+    public function handle(User $user, Request $request): bool
     {
         $permissions = $request->get('permissions', []);
         $roles = $request->input('user.roles', []);

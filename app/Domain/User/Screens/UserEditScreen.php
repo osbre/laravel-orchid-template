@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\User\Screens;
 
-use Orchid\Screen\{Action, Layout, Screen, Actions\Button, Fields\Password, Actions\DropDown, Actions\ModalToggle};
-use Domain\User\Queries\UserQueries;
+use Orchid\Screen\{Layout, Screen, Actions\Button, Fields\Password, Actions\DropDown, Actions\ModalToggle};
+use Domain\User\Actions\UpdateUser;
 use Illuminate\Http\Request;
 use Orchid\Access\UserSwitch;
 use Domain\User\User;
@@ -15,32 +15,15 @@ use Domain\User\Layouts\{UserEditLayout, UserRoleLayout};
 
 class UserEditScreen extends Screen
 {
-    /**
-     * Display header name.
-     *
-     * @var string
-     */
+    /** @var string */
     public $name = 'User';
 
-    /**
-     * Display header description.
-     *
-     * @var string
-     */
+    /** @var string */
     public $description = 'All registered users';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $permission = 'platform.systems.users';
 
-    /**
-     * Query data.
-     *
-     * @param \Orchid\Platform\Models\User $user
-     *
-     * @return array
-     */
     public function query(User $user): array
     {
         $user->load(['roles']);
@@ -51,11 +34,6 @@ class UserEditScreen extends Screen
         ];
     }
 
-    /**
-     * Button commands.
-     *
-     * @return Action[]
-     */
     public function commandBar(): array
     {
         return [
@@ -83,11 +61,6 @@ class UserEditScreen extends Screen
         ];
     }
 
-    /**
-     * @throws \Throwable
-     *
-     * @return Layout[]
-     */
     public function layout(): array
     {
         return [
@@ -105,15 +78,9 @@ class UserEditScreen extends Screen
         ];
     }
 
-    /**
-     * @param \Domain\User\User $user
-     * @param \Illuminate\Http\Request     $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function save(User $user, Request $request)
+    public function save(User $user, Request $request, UpdateUser $updateUser)
     {
-        UserQueries::update($user, $request);
+        $updateUser->handle($user, $request);
 
         Alert::info(__('User was saved.'));
 

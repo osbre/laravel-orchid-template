@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Domain\User\Screens;
 
-use Orchid\Screen\{Action, Layout, Screen, Actions\Button};
+use Orchid\Screen\{Screen, Actions\Button};
+use Domain\User\Actions\CreateUser;
 use Domain\User\DataObjects\UserData;
-use Domain\User\Queries\UserQueries;
 use Illuminate\Http\{RedirectResponse, Request};
 use Domain\User\User;
 use Orchid\Support\Facades\Alert;
@@ -14,32 +14,15 @@ use Domain\User\Layouts\{UserEditLayout, UserPasswordLayout, UserRoleLayout};
 
 class UserCreateScreen extends Screen
 {
-    /**
-     * Display header name.
-     *
-     * @var string
-     */
+    /** @var string */
     public $name = 'User';
 
-    /**
-     * Display header description.
-     *
-     * @var string
-     */
+    /** @var string */
     public $description = 'All registered users';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $permission = 'platform.systems.users';
 
-    /**
-     * Query data.
-     *
-     * @param \Orchid\Platform\Models\User $user
-     *
-     * @return array
-     */
     public function query(User $user): array
     {
         return [
@@ -48,11 +31,6 @@ class UserCreateScreen extends Screen
         ];
     }
 
-    /**
-     * Button commands.
-     *
-     * @return Action[]
-     */
     public function commandBar(): array
     {
         return [
@@ -62,11 +40,6 @@ class UserCreateScreen extends Screen
         ];
     }
 
-    /**
-     * @throws \Throwable
-     *
-     * @return Layout[]
-     */
     public function layout(): array
     {
         return [
@@ -76,14 +49,9 @@ class UserCreateScreen extends Screen
         ];
     }
 
-    /**
-     * @param  User  $user
-     * @param  Request  $request
-     * @return RedirectResponse
-     */
-    public function save(User $user, Request $request): RedirectResponse
+    public function save(User $user, Request $request, CreateUser $createUser): RedirectResponse
     {
-        UserQueries::create(
+        $createUser->handle(
             UserData::fromRequest($request),
             $request->input('user.roles', [])
         );
