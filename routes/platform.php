@@ -11,7 +11,7 @@ use Domain\User\Screens\{
 use Domain\User\Screens\{
     UserCreateScreen as UserCreateScreen,
     UserEditScreen,
-    UserListScreen
+    UserListScreen,
 };
 
 Route::screen('/main', WelcomeScreen::class)->name('platform.main');

@@ -42,17 +42,6 @@ class MainMenuComposer
                     ->badge(function () {
                         return 6;
                     })
-            )->add(Menu::MAIN,
-                ItemMenu::label('Users')
-                    ->icon('icon-user')
-                    ->route('platform.systems.users')
-                    ->title('General')
-                    ->permission('platform.systems.users')
-            )->add(Menu::MAIN,
-                ItemMenu::label('Roles')
-                    ->icon('icon-lock')
-                    ->route('platform.systems.roles')
-                    ->permission('platform.systems.roles')
             );
 
         // Main
@@ -61,7 +50,16 @@ class MainMenuComposer
                 ItemMenu::label('Example')
                     ->icon('icon-folder')
                     ->route('platform.main')
-                    ->title('Example boilerplate')
+            )->add(Menu::MAIN,
+                ItemMenu::label('Users')
+                    ->icon('icon-user')
+                    ->route('platform.systems.users')
+                    ->permission('platform.systems.users')
+            )->add(Menu::MAIN,
+                ItemMenu::label('Roles')
+                    ->icon('icon-lock')
+                    ->route('platform.systems.roles')
+                    ->permission('platform.systems.roles')
             );
     }
 }

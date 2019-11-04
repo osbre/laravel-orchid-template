@@ -14,9 +14,4 @@
     <meta name="msapplication-starturl" content="/">
 @endpush
 
-<p class="h2 n-m font-thin v-center">
-    <i class="icon-diamond"></i>
-    <span class="m-l d-none d-sm-block">
-        {{ config('app.name') }}
-    </span>
-</p>
+<div></div>
